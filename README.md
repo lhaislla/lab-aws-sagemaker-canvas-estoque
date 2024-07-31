@@ -20,28 +20,36 @@ Antes de começar, certifique-se de ter uma conta na AWS. Se precisar de ajuda p
 
 ### 1. Selecionar Dataset
 
--   Navegue até a pasta `datasets` deste repositório. Esta pasta contém os datasets que você poderá escolher para treinar e testar seu modelo de ML. Sinta-se à vontade para gerar/enriquecer seus próprios datasets, quanto mais você se engajar, mais relevante esse projeto será em seu portfólio.
--   Escolha o dataset que você usará para treinar seu modelo de previsão de estoque.
--   Faça o upload do dataset no SageMaker Canvas.
+Dataset : `canvas-sample-retail-electronics-forecasting`, para a prática do SageMaker. 
+
+- item_id: Identificador único de produtos.
+- location: Localização das vendas.
+- time_stamp: Data e hora.
+- demand: Demanda.
+- price: Preço de venda.
+- product_category: Categoria.
 
 ### 2. Construir/Treinar
 
--   No SageMaker Canvas, importe o dataset que você selecionou.
--   Configure as variáveis de entrada e saída de acordo com os dados.
--   Inicie o treinamento do modelo. Isso pode levar algum tempo, dependendo do tamanho do dataset.
+ Configuração das variáveis de entrada e saída de acordo com os dados e inicio do treinamento do modelo.
+
+- Variável-alvo: `price` (para previsão de preço).
+- Timestamp: Data e hora dos registros.
+- Identificador único: `item_id`.
+- Agrupador: `location`.
+
+ Modelo treinado em modo Standart.
 
 ### 3. Analisar
 
--   Após o treinamento, examine as métricas de performance do modelo.
--   Verifique as principais características que influenciam as previsões.
--   Faça ajustes no modelo se necessário e re-treine até obter um desempenho satisfatório.
+Métricas de Desempenho do Modelo
 
-### 4. Prever
+- **Média da Precisão em Quantis Ponderados (Avg. wQL):** Reflete a precisão do modelo em diferentes quantis ponderados (P10, P50, P90). Um valor de `0.017` demonstra uma alta precisão.
+- **Erro Percentual Médio Absoluto (MAPE):** Mede o erro percentual médio das previsões. Com um valor de `0.012` (1.2% de erro médio), indica previsões muito próximas dos valores reais.
+- **Erro Absoluto Ponderado (WAPE):** Avalia o erro absoluto ajustado por ponderação. Um valor de `0.013` (1.3% de erro absoluto) sugere um desempenho muito eficaz.
+- **Raiz Quadrada do Erro Médio Quadrático (RMSE):** Calcula a raiz quadrada da média dos erros quadráticos. Um valor de `2.278` aponta para uma baixa média de erros quadráticos, indicando previsões precisas.
+- **Erro Absoluto Escalado (MASE):** Mede o erro absoluto relativo à série temporal. Um valor de `0.000` denota uma precisão excepcional do modelo.
 
--   Use o modelo treinado para fazer previsões de estoque.
--   Exporte os resultados e analise as previsões geradas.
--   Documente suas conclusões e qualquer insight obtido a partir das previsões.
+### 4. Previsões
 
-## 🤔 Dúvidas?
-
-Esperamos que esta experiência tenha sido enriquecedora e que você tenha aprendido mais sobre Machine Learning aplicado a problemas reais. Se tiver alguma dúvida, não hesite em abrir uma issue neste repositório ou entrar em contato com a equipe da DIO.
+Devido ao grande número de SKUs, a previsão em `batch` não é viável no plano gratuito. Por isso, as  previsões realizadas foram individuais, com intervalos de P10 (cenário pessimista), P90 (cenário otimista) e P50 (cenário neutro). As estimativas de lucro ou prejuízo podem ser calculadas para o período de três meses a partir do último dado disponível.
